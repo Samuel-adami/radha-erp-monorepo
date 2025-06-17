@@ -14,7 +14,7 @@ function NovaCampanha() {
   useEffect(() => {
     const carregarPublicosAlvo = async () => {
       try {
-        const dados = await fetchComAuth('/publicos-alvo');
+        const dados = await fetchComAuth('/publicos');
         setPublicosAlvo(dados);
       } catch (err) {
         setErro('Erro ao carregar públicos-alvo: ' + err.message);
