@@ -36,9 +36,5 @@ cd /opt/radha/radha-erp/frontend-erp/
 npm run dev
 
 
-####COMANDOS PARA PARAR DE RODAR UMA Porta
-
-  °  °                                                                      n°°°°°   °                                                       n                  °°
-kill -9 12345 <===PID que apareceu com o comando acima
-
-kill -9 827938
+#### COMANDOS PARA PARAR DE RODAR UMA PORTA
+kill -9 <PID>
