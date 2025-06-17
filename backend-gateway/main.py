@@ -45,10 +45,14 @@ async def call_marketing_ia_backend(path: str, request: Request):
                 url=url,
                 headers=headers,
                 params=request.query_params,
-                content=await request.body()
+                content=await request.body(),
             )
             response.raise_for_status()
-            return JSONResponse(response.json(), status_code=response.status_code)
+            try:
+                content = response.json()
+            except ValueError:
+                content = response.text
+            return JSONResponse(content, status_code=response.status_code)
         except httpx.HTTPStatusError as e:
             return JSONResponse({"detail": e.response.text}, status_code=e.response.status_code)
         except httpx.RequestError as e:
@@ -66,10 +70,14 @@ async def call_producao_backend(path: str, request: Request):
                 url=url,
                 headers=headers,
                 params=request.query_params,
-                content=await request.body()
+                content=await request.body(),
             )
             response.raise_for_status()
-            return JSONResponse(response.json(), status_code=response.status_code)
+            try:
+                content = response.json()
+            except ValueError:
+                content = response.text
+            return JSONResponse(content, status_code=response.status_code)
         except httpx.HTTPStatusError as e:
             return JSONResponse({"detail": e.response.text}, status_code=e.response.status_code)
         except httpx.RequestError as e:
@@ -83,7 +91,11 @@ async def login(request: Request):
         try:
             response = await client.post(url, content=await request.body())
             response.raise_for_status()
-            return JSONResponse(response.json(), status_code=response.status_code)
+            try:
+                content = response.json()
+            except ValueError:
+                content = response.text
+            return JSONResponse(content, status_code=response.status_code)
         except httpx.HTTPStatusError as e:
             return JSONResponse({"detail": e.response.text}, status_code=e.response.status_code)
         except httpx.RequestError as e:
@@ -97,7 +109,11 @@ async def validate_token(request: Request):
             headers = {k: v for k, v in request.headers.items() if k.lower() not in ["host"]}
             response = await client.get(url, headers=headers)
             response.raise_for_status()
-            return JSONResponse(response.json(), status_code=response.status_code)
+            try:
+                content = response.json()
+            except ValueError:
+                content = response.text
+            return JSONResponse(content, status_code=response.status_code)
         except httpx.HTTPStatusError as e:
             return JSONResponse({"detail": e.response.text}, status_code=e.response.status_code)
         except httpx.RequestError as e:
